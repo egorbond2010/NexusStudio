@@ -3,81 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexusStudio - Космическая разработка на Python</title>
+    <title>NexusStudio - Профессиональная разработка на Python</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* --- Глобальные переменные и стили --- */
         :root {
-            --primary: #00f2fe; /* Электрический голубой */
-            --secondary: #ff00e5; /* Неоновый розовый */
-            --accent: #7d2ae8; /* Глубокий фиолетовый */
-            --dark: #0d0d1a; /* Глубокий космический черный */
-            --light: #e6e6fa; /* Лавандовый белый */
-            --gradient: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
-            --shadow-color: rgba(125, 42, 232, 0.6);
+            --primary: #8a2be2; /* Более насыщенный фиолетовый */
+            --secondary: #c5a3ff;
+            --accent: #00bfff; /* Глубокий небесно-голубой */
+            --dark: #1a1a2e; /* Более глубокий темный фон */
+            --light: #e0e0e0;
+            --gradient: linear-gradient(135deg, var(--primary), var(--accent));
+            --shadow-color: rgba(138, 43, 226, 0.4);
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Manrope', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
             background-color: var(--dark);
             color: var(--light);
-            line-height: 1.8;
+            line-height: 1.7;
             overflow-x: hidden;
         }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        /* --- Шапка сайта --- */
-        header {
-            padding: 1.5rem 0;
-            position: fixed;
-            width: 100%;
-            z-index: 1000;
-            transition: all 0.4s ease-in-out;
-            background: transparent;
+        
+        .glass {
+            background: rgba(26, 26, 46, 0.6); /* Более темное и непрозрачное стекло */
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
         }
         
-        header.scrolled {
-            background: rgba(13, 13, 26, 0.85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba(0, 242, 254, 0.2);
-        }
-
-        .header-content {
+        /* --- Шапка сайта --- */
+        header {
+            padding: 1.5rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            transition: background 0.3s ease, border-bottom 0.3s ease;
+        }
+        
+        header.scrolled {
+            background: rgba(26, 26, 46, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(138, 43, 226, 0.3);
         }
         
         .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.2rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--primary), white);
+            font-size: 1.9rem;
+            font-weight: 800; /* Более жирный шрифт */
+            background: var(--gradient);
             -webkit-background-clip: text;
             background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
         }
         
         nav ul {
             display: flex;
-            gap: 3rem;
+            gap: 2.5rem;
             list-style: none;
         }
         
@@ -85,33 +80,30 @@
             color: var(--light);
             text-decoration: none;
             font-weight: 500;
-            font-size: 1.1rem;
-            transition: all 0.3s;
+            transition: color 0.3s;
             position: relative;
-            padding: 10px 0;
+            padding-bottom: 8px;
         }
         
         nav a:hover {
             color: white;
-            text-shadow: 0 0 10px var(--primary);
         }
         
-        nav a::before {
+        nav a::after {
             content: '';
             position: absolute;
             bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--primary);
-            transform: scaleX(0);
-            transform-origin: right;
-            transition: transform 0.4s ease-in-out;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: var(--gradient);
+            border-radius: 2px;
+            transition: width 0.4s ease;
         }
-
-        nav a:hover::before {
-            transform: scaleX(1);
-            transform-origin: left;
+        
+        nav a:hover::after {
+            width: 100%;
         }
         
         /* --- Секция Hero --- */
@@ -119,57 +111,41 @@
             min-height: 100vh;
             display: flex;
             align-items: center;
+            padding: 0 5%;
             position: relative;
             overflow: hidden;
-            padding-top: 100px; /* Отступ для фиксированной шапки */
         }
 
-        /* Анимированный фон (эффект матрицы) */
+        /* Анимированный фон */
         .particles {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle fill="%238a2be2" cx="20" cy="20" r="1"/></svg>'),
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle fill="%2300bfff" cx="80" cy="80" r="1.5"/></svg>');
+            background-repeat: space;
+            animation: moveParticles 50s linear infinite;
+            opacity: 0.2;
             z-index: 1;
-            overflow: hidden;
         }
 
-        .particle {
-            position: absolute;
-            background: var(--primary);
-            width: 2px;
-            height: 2px;
-            border-radius: 50%;
-            opacity: 0;
-            animation: fall linear infinite;
-        }
-
-        @keyframes fall {
-            to {
-                transform: translateY(100vh);
-                opacity: 0;
-            }
+        @keyframes moveParticles {
+            0% { background-position: 0 0, 0 0; }
+            100% { background-position: 1000px 500px, -1000px -500px; }
         }
         
         .hero-content {
+            max-width: 700px;
             z-index: 2;
-            text-align: center;
-            animation: fadeIn 2s ease-in-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
         }
         
         .hero h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 5rem;
-            font-weight: 900;
-            margin-bottom: 2rem;
-            line-height: 1.1;
-            text-shadow: 0 0 25px var(--shadow-color);
+            font-size: 3.8rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
         }
         
         .highlight {
@@ -180,198 +156,150 @@
         }
         
         .hero p {
-            font-size: 1.4rem;
-            margin-bottom: 3rem;
-            opacity: 0.9;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            font-weight: 300;
+            font-size: 1.25rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.8;
+            max-width: 600px;
         }
         
         .cta-button {
             display: inline-block;
-            padding: 20px 60px;
-            background: transparent;
+            padding: 16px 45px;
+            background: var(--gradient);
             color: white;
             border-radius: 50px;
             text-decoration: none;
-            font-weight: 700;
-            font-size: 1.2rem;
-            transition: all 0.3s;
-            border: 2px solid var(--primary);
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
+            margin-top: 1rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
         }
         
-        .cta-button:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 0;
-            height: 100%;
-            background: var(--gradient);
-            transition: width 0.4s ease-in-out;
-            z-index: -1;
-        }
-
-        .cta-button:hover:before {
-            width: 100%;
-        }
-
         .cta-button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 30px var(--primary);
-            border-color: transparent;
-        }
-
-        .cta-button i {
-            margin-left: 10px;
-            transition: transform 0.3s;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 30px var(--shadow-color);
         }
         
-        .cta-button:hover i {
-            transform: rotate(15deg);
-        }
-
         /* --- Общие стили секций --- */
         .section {
-            padding: 140px 0;
-            position: relative;
-        }
-
-        .section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80%;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-            opacity: 0.5;
+            padding: 120px 5%;
         }
         
         .section-title {
             text-align: center;
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
+            font-size: 2.8rem;
             font-weight: 700;
-            margin-bottom: 100px;
+            margin-bottom: 80px;
         }
-
+        
         /* --- Секция "Как мы работаем" --- */
         .process-steps {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 50px;
+            gap: 40px;
         }
         
         .step {
-            padding: 40px;
-            transition: all 0.4s;
+            padding: 40px 30px;
+            transition: transform 0.4s, box-shadow 0.4s;
             text-align: center;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid transparent;
-            background: rgba(20, 20, 35, 0.5);
-            backdrop-filter: blur(5px);
-            border-radius: 20px;
-        }
-
-        .step::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(transparent, var(--primary), transparent 30%);
-            animation: rotate 6s linear infinite;
-            opacity: 0;
-            transition: opacity 0.4s;
-        }
-        
-        .step:hover::before {
-            opacity: 1;
-        }
-
-        @keyframes rotate {
-            100% { transform: rotate(360deg); }
-        }
-
-        .step-content {
-            background: var(--dark);
-            border-radius: 18px;
-            padding: 30px;
-            position: relative;
-            z-index: 1;
         }
         
         .step:hover {
-            transform: translateY(-20px) scale(1.03);
+            transform: translateY(-15px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
         }
         
         .step-number {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3rem;
+            display: inline-flex;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
             font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--primary);
-            text-shadow: 0 0 15px var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 25px;
+            color: white;
+            box-shadow: 0 5px 15px var(--shadow-color);
         }
         
         .step h3 {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             margin-bottom: 15px;
             color: white;
-            font-family: 'Orbitron', sans-serif;
         }
 
         .step p {
             opacity: 0.8;
-            font-weight: 300;
         }
         
         /* --- Секция "Цены" --- */
         .pricing-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 50px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         
         .pricing-card {
-            padding: 40px;
+            padding: 40px 30px;
             text-align: center;
             transition: all 0.4s ease;
             position: relative;
-            background: linear-gradient(160deg, rgba(26, 26, 46, 0.7), rgba(13, 13, 26, 0.7));
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+        
+        .pricing-card::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+            border-radius: 50%;
+            transition: width 0.6s, height 0.6s, opacity 0.6s;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            z-index: 0;
+        }
+
+        .pricing-card:hover::before {
+            width: 400px;
+            height: 400px;
+            opacity: 0.2;
+        }
+
+        .pricing-card > * {
+            position: relative;
+            z-index: 1;
         }
         
         .pricing-card:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 40px var(--shadow-color);
-            border-color: var(--primary);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border-color: rgba(138, 43, 226, 0.7);
         }
 
         .pricing-card h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary);
+            font-size: 1.7rem;
+            font-weight: 600;
         }
         
         .price {
-            font-size: 3.5rem;
-            margin: 25px 0;
-            font-weight: 900;
-            font-family: 'Orbitron', sans-serif;
-            color: white;
+            font-size: 3rem;
+            margin: 20px 0;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
         }
         
         .pricing-card ul {
@@ -381,10 +309,14 @@
         }
         
         .pricing-card ul li {
-            padding: 15px 0;
+            padding: 12px 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 1.1rem;
-            font-weight: 300;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .pricing-card:hover ul li {
+            opacity: 1;
         }
         
         .pricing-card ul li:last-child {
@@ -392,229 +324,239 @@
         }
         
         .pricing-card ul li i {
-            margin-right: 15px;
-            color: var(--primary);
-            font-size: 1.2rem;
+            margin-right: 12px;
+            color: var(--accent);
         }
         
         /* --- Подвал --- */
         footer {
-            padding: 100px 0 40px;
+            padding: 80px 5% 40px;
             text-align: center;
-            background: #080810;
-            border-top: 1px solid rgba(0, 242, 254, 0.2);
+            background-color: #121221;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
         }
         
         .contact-info {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             margin: 30px 0;
-            line-height: 2;
+            line-height: 1.8;
         }
         
         .contact-info a {
-            color: var(--primary);
+            color: var(--secondary);
             text-decoration: none;
-            transition: all 0.3s;
-            border-bottom: 1px dashed var(--primary);
+            transition: color 0.3s, text-shadow 0.3s;
         }
         
         .contact-info a:hover {
             color: white;
-            text-shadow: 0 0 15px var(--primary);
-            border-bottom-color: white;
+            text-shadow: 0 0 10px var(--accent);
         }
         
         .social-links {
             display: flex;
             justify-content: center;
-            gap: 30px;
-            margin: 50px 0;
+            gap: 25px;
+            margin: 40px 0;
         }
         
         .social-links a {
             display: inline-flex;
-            width: 60px;
-            height: 60px;
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.08);
             align-items: center;
             justify-content: center;
             transition: all 0.3s;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             color: var(--light);
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         .social-links a:hover {
-            background: var(--primary);
-            color: var(--dark);
-            transform: translateY(-10px) scale(1.1);
-            box-shadow: 0 10px 25px var(--primary);
+            background: var(--gradient);
+            color: white;
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 8px 20px var(--shadow-color);
+        }
+        
+        /* --- Анимации --- */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .floating {
+            animation: float 6s ease-in-out infinite;
         }
         
         /* --- Адаптивность --- */
         @media (max-width: 992px) {
-            .hero h1 { font-size: 4rem; }
-            .section-title { font-size: 2.8rem; }
-            nav ul { gap: 2rem; }
+            .hero h1 {
+                font-size: 3rem;
+            }
+             .section-title {
+                font-size: 2.5rem;
+            }
         }
 
         @media (max-width: 768px) {
-            .hero h1 { font-size: 3.2rem; }
-            .hero p { font-size: 1.2rem; }
-            .section-title { font-size: 2.5rem; }
-            header { padding: 1rem 0; }
-            .header-content { flex-direction: column; gap: 1rem;}
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            .hero p {
+                font-size: 1.1rem;
+            }
+            nav ul {
+                gap: 1.5rem;
+            }
+            .section-title {
+                font-size: 2.2rem;
+            }
         }
         
         @media (max-width: 480px) {
-            .hero h1 { font-size: 2.5rem; }
-            .hero p { font-size: 1.1rem; }
-            nav ul { gap: 1.5rem; }
+            header {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem 5%;
+            }
+            nav ul {
+                gap: 1.2rem;
+                font-size: 0.9rem;
+            }
+            .hero {
+                text-align: center;
+            }
+            .hero h1 {
+                font-size: 2.2rem;
+            }
         }
     </style>
 </head>
 <body>
     <header>
-        <div class="container header-content">
-            <div class="logo">NexusStudio</div>
-            <nav>
-                <ul>
-                    <li><a href="#process">Процесс</a></li>
-                    <li><a href="#pricing">Цены</a></li>
-                    <li><a href="#contact">Контакты</a></li>
-                </ul>
-            </nav>
-        </div>
+        <div class="logo">NexusStudio</div>
+        <nav>
+            <ul>
+                <li><a href="#process">Процесс</a></li>
+                <li><a href="#pricing">Цены</a></li>
+                <li><a href="#contact">Контакты</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <main>
-        <section class="hero">
-            <div class="particles"></div>
-            <div class="container hero-content">
-                <h1>Создаем будущее с <span class="highlight">Python</span></h1>
-                <p>NexusStudio — это ваш надежный партнер в мире разработки. Мы превращаем идеи в мощные, масштабируемые и элегантные решения.</p>
-                <a href="https://t.me/nexust00l" class="cta-button" target="_blank">
-                    Обсудить проект <i class="fab fa-telegram-plane"></i>
-                </a>
-            </div>
-        </section>
+    <section class="hero">
+        <div class="particles"></div>
+        <div class="hero-content">
+            <h1>Разработка <span class="highlight">Python</span>-программ любой сложности</h1>
+            <p>NexusStudio создает эффективные и масштабируемые решения на Python с гарантией качества и прозрачным процессом разработки.</p>
+            <a href="https://t.me/nexust00l" class="cta-button" target="_blank">
+                Заказать в Telegram <i class="fab fa-telegram"></i>
+            </a>
+        </div>
+    </section>
 
-        <section id="process" class="section">
-            <div class="container">
-                <h2 class="section-title">Процесс Работы</h2>
-                <div class="process-steps">
-                    <div class="step">
-                        <div class="step-content">
-                            <div class="step-number">01</div>
-                            <h3>Идея и Анализ</h3>
-                            <p>Вы делитесь своей задачей, мы погружаемся в детали и предлагаем оптимальные пути реализации.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="step">
-                         <div class="step-content">
-                            <div class="step-number">02</div>
-                            <h3>Стратегия</h3>
-                            <p>Составляем точный план, определяем сроки и стоимость. Полная прозрачность на каждом этапе.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="step">
-                        <div class="step-content">
-                            <div class="step-number">03</div>
-                            <h3>Запуск</h3>
-                            <p>После согласования и оплаты через CryptoBot, наша команда немедленно приступает к магии разработки.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="step">
-                        <div class="step-content">
-                            <div class="step-number">04</div>
-                            <h3>Разработка</h3>
-                            <p>Мы держим вас в курсе прогресса, предоставляя доступ к промежуточным результатам.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="step">
-                        <div class="step-content">
-                            <div class="step-number">05</div>
-                            <h3>Результат</h3>
-                            <p>Вы получаете готовый продукт, исходный код и нашу 7-дневную гарантию бесплатных правок.</p>
-                        </div>
-                    </div>
-                    
-                    <div class="step">
-                        <div class="step-content">
-                            <div class="step-number">06</div>
-                            <h3>Поддержка</h3>
-                            <p>Обеспечиваем официальное сотрудничество с юридической защитой и всегда рады вашим отзывам.</p>
-                        </div>
-                    </div>
-                </div>
+    <section id="process" class="section">
+        <h2 class="section-title">Как мы работаем</h2>
+        <div class="process-steps">
+            <div class="step glass floating">
+                <div class="step-number">1</div>
+                <h3>Опишите задачу</h3>
+                <p>Напишите нам в Telegram, что нужно реализовать. Мы уточним детали и технические требования.</p>
             </div>
-        </section>
+            
+            <div class="step glass floating" style="animation-delay: 0.3s">
+                <div class="step-number">2</div>
+                <h3>Согласование</h3>
+                <p>Оценим сложность, назовем точные сроки и цену. Никаких скрытых платежей.</p>
+            </div>
+            
+            <div class="step glass floating" style="animation-delay: 0.6s">
+                <div class="step-number">3</div>
+                <h3>Оплата</h3>
+                <p>Оплата через CryptoBot в Telegram. Начинаем работу сразу после подтверждения платежа.</p>
+            </div>
+            
+            <div class="step glass floating" style="animation-delay: 0.9s">
+                <div class="step-number">4</div>
+                <h3>Разработка</h3>
+                <p>Показываем процесс разработки поэтапно. Вы видите прогресс в реальном времени.</p>
+            </div>
+            
+            <div class="step glass floating" style="animation-delay: 1.2s">
+                <div class="step-number">5</div>
+                <h3>Результат</h3>
+                <p>Вы получаете готовый код и документацию. Гарантируем бесплатные правки в течение 7 дней.</p>
+            </div>
+            
+            <div class="step glass floating" style="animation-delay: 1.5s">
+                <div class="step-number">6</div>
+                <h3>Гарантии</h3>
+                <p>При желании оставляете отзыв. Работаем официально с юридической защитой.</p>
+            </div>
+        </div>
+    </section>
 
-        <section id="pricing" class="section">
-            <div class="container">
-                <h2 class="section-title">Тарифные планы</h2>
-                <div class="pricing-container">
-                    <div class="pricing-card">
-                        <h3>Старт</h3>
-                        <div class="price">200–300₽</div>
-                        <p>Срок: 1-4 дня</p>
-                        <ul>
-                            <li><i class="fas fa-check-circle"></i> Небольшие скрипты</li>
-                            <li><i class="fas fa-check-circle"></i> Парсинг данных</li>
-                            <li><i class="fas fa-check-circle"></i> Автоматизация задач</li>
-                            <li><i class="fas fa-check-circle"></i> Базовые боты</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="pricing-card">
-                        <h3>Профи</h3>
-                        <div class="price">400–600₽</div>
-                        <p>Срок: 2-10 дней</p>
-                        <ul>
-                            <li><i class="fas fa-check-circle"></i> Веб-приложения</li>
-                            <li><i class="fas fa-check-circle"></i> Работа с API</li>
-                            <li><i class="fas fa-check-circle"></i> Базы данных</li>
-                            <li><i class="fas fa-check-circle"></i> GUI приложения</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="pricing-card">
-                        <h3>Космос</h3>
-                        <div class="price">от 700₽</div>
-                        <p>Срок: 3-20 дней</p>
-                        <ul>
-                            <li><i class="fas fa-check-circle"></i> Мультимодульные системы</li>
-                            <li><i class="fas fa-check-circle"></i> Сложные интеграции</li>
-                            <li><i class="fas fa-check-circle"></i> Защита софта (HWID)</li>
-                            <li><i class="fas fa-check-circle"></i> Уникальные решения</li>
-                        </ul>
-                    </div>
-                </div>
+    <section id="pricing" class="section">
+        <h2 class="section-title">Наши цены</h2>
+        <div class="pricing-container">
+            <div class="pricing-card glass">
+                <h3>Простая задача</h3>
+                <div class="price">200–300₽</div>
+                <p>Срок выполнения: 1-2 дня</p>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> Небольшие скрипты</li>
+                    <li><i class="fas fa-check-circle"></i> Парсинг данных</li>
+                    <li><i class="fas fa-check-circle"></i> Автоматизация задач</li>
+                    <li><i class="fas fa-check-circle"></i> Базовые боты</li>
+                </ul>
             </div>
-        </section>
+            
+            <div class="pricing-card glass">
+                <h3>Средняя задача</h3>
+                <div class="price">400–600₽</div>
+                <p>Срок выполнения: 2-3 дня</p>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> Веб-приложения</li>
+                    <li><i class="fas fa-check-circle"></i> Работа с API</li>
+                    <li><i class="fas fa-check-circle"></i> Базы данных</li>
+                    <li><i class="fas fa-check-circle"></i> GUI приложения</li>
+                </ul>
+            </div>
+            
+            <div class="pricing-card glass">
+                <h3>Сложный проект</h3>
+                <div class="price">от 700₽</div>
+                <p>Срок выполнения: 3-9 дней</p>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> Мультимодульные системы</li>
+                    <li><i class="fas fa-check-circle"></i> Интеграция с сервисами</li>
+                    <li><i class="fas fa-check-circle"></i> Машинное обучение</li>
+                    <li><i class="fas fa-check-circle"></i> Сложная архитектура</li>
+                </ul>
+            </div>
+        </div>
+    </section>
 
-        <footer id="contact" class="section">
-            <div class="container">
-                <h2 class="section-title">Связь с нами</h2>
-                <div class="contact-info">
-                    <p>Готовы воплотить вашу идею в реальность? Свяжитесь с нами.</p>
-                    <p><a href="https://t.me/nexust00l" target="_blank">@nexust00l в Telegram</a></p>
-                    <p>Оплата: <span class="highlight">CryptoBot</span></p>
-                </div>
-                <div class="social-links">
-                    <a href="https://t.me/nexust00l" target="_blank" aria-label="Telegram">
-                        <i class="fab fa-telegram-plane"></i>
-                    </a>
-                </div>
-                <p>© 2025 NexusStudio. Все права защищены.</p>
-            </div>
-        </footer>
-    </main>
+    <footer id="contact" class="section">
+        <h2 class="section-title">Свяжитесь с нами</h2>
+        
+        <div class="contact-info">
+            <p>Готовы начать? Напишите нам в Telegram для обсуждения вашего проекта.</p>
+            <p><a href="https://t.me/nexust00l" target="_blank">@nexust00l</a></p>
+            <p>Оплата: <span class="highlight">CryptoBot</span></p>
+        </div>
+        
+        <div class="social-links">
+            <a href="https://t.me/nexust00l" target="_blank" aria-label="Telegram">
+                <i class="fab fa-telegram"></i>
+            </a>
+        </div>
+        
+        <p>© 2023-2025 NexusStudio. Все права защищены.</p>
+    </footer>
 
     <script>
         // Эффект для шапки при прокрутке
@@ -632,18 +574,6 @@
                 });
             });
         });
-
-        // Анимация частиц на главном экране
-        const particlesContainer = document.querySelector('.particles');
-        for (let i = 0; i < 50; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            particle.style.left = `${Math.random() * 100}%`;
-            particle.style.animationDuration = `${Math.random() * 5 + 3}s`;
-            particle.style.animationDelay = `${Math.random() * 5}s`;
-            particle.style.opacity = Math.random();
-            particlesContainer.appendChild(particle);
-        }
     </script>
 </body>
 </html>
