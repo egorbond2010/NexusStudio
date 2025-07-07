@@ -1,579 +1,393 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NexusStudio - Профессиональная разработка на Python</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Manrope -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
-        /* --- Глобальные переменные и стили --- */
+        /* Custom Styles & Tailwind Config */
         :root {
-            --primary: #8a2be2; /* Более насыщенный фиолетовый */
-            --secondary: #c5a3ff;
-            --accent: #00bfff; /* Глубокий небесно-голубой */
-            --dark: #1a1a2e; /* Более глубокий темный фон */
-            --light: #e0e0e0;
-            --gradient: linear-gradient(135deg, var(--primary), var(--accent));
-            --shadow-color: rgba(138, 43, 226, 0.4);
+            --dark-bg: #050509; /* Еще более глубокий черный */
+            --primary-purple: #8a2be2;
+            --primary-blue: #00bfff;
+            --gradient: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Manrope', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
+
         body {
-            background-color: var(--dark);
-            color: var(--light);
-            line-height: 1.7;
+            font-family: 'Manrope', sans-serif;
+            background-color: var(--dark-bg);
+            color: #E0E0E0;
             overflow-x: hidden;
         }
-        
-        .glass {
-            background: rgba(26, 26, 46, 0.6); /* Более темное и непрозрачное стекло */
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+
+        .gradient-text {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
-        
-        /* --- Шапка сайта --- */
-        header {
-            padding: 1.5rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            width: 100%;
-            z-index: 1000;
-            transition: background 0.3s ease, border-bottom 0.3s ease;
-        }
-        
-        header.scrolled {
-            background: rgba(26, 26, 46, 0.85);
+
+        .glass-effect {
+            background: rgba(15, 15, 25, 0.5);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(138, 43, 226, 0.3);
-        }
-        
-        .logo {
-            font-size: 1.9rem;
-            font-weight: 800; /* Более жирный шрифт */
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        nav ul {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
-        
-        nav a {
-            color: var(--light);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-            position: relative;
-            padding-bottom: 8px;
-        }
-        
-        nav a:hover {
-            color: white;
-        }
-        
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 0;
-            height: 3px;
-            background: var(--gradient);
-            border-radius: 2px;
-            transition: width 0.4s ease;
-        }
-        
-        nav a:hover::after {
-            width: 100%;
-        }
-        
-        /* --- Секция Hero --- */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 0 5%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Анимированный фон */
-        .particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle fill="%238a2be2" cx="20" cy="20" r="1"/></svg>'),
-                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle fill="%2300bfff" cx="80" cy="80" r="1.5"/></svg>');
-            background-repeat: space;
-            animation: moveParticles 50s linear infinite;
-            opacity: 0.2;
-            z-index: 1;
-        }
-
-        @keyframes moveParticles {
-            0% { background-position: 0 0, 0 0; }
-            100% { background-position: 1000px 500px, -1000px -500px; }
-        }
-        
-        .hero-content {
-            max-width: 700px;
-            z-index: 2;
-        }
-        
-        .hero h1 {
-            font-size: 3.8rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            line-height: 1.2;
-        }
-        
-        .highlight {
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .hero p {
-            font-size: 1.25rem;
-            margin-bottom: 2.5rem;
-            opacity: 0.8;
-            max-width: 600px;
-        }
-        
-        .cta-button {
-            display: inline-block;
-            padding: 16px 45px;
-            background: var(--gradient);
-            color: white;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: none;
-            cursor: pointer;
-            margin-top: 1rem;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
-        }
-        
-        .cta-button:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 12px 30px var(--shadow-color);
-        }
-        
-        /* --- Общие стили секций --- */
-        .section {
-            padding: 120px 5%;
-        }
-        
-        .section-title {
-            text-align: center;
-            font-size: 2.8rem;
-            font-weight: 700;
-            margin-bottom: 80px;
-        }
-        
-        /* --- Секция "Как мы работаем" --- */
-        .process-steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-        
-        .step {
-            padding: 40px 30px;
-            transition: transform 0.4s, box-shadow 0.4s;
-            text-align: center;
-        }
-        
-        .step:hover {
-            transform: translateY(-15px);
-            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-        }
-        
-        .step-number {
-            display: inline-flex;
-            width: 60px;
-            height: 60px;
-            background: var(--gradient);
-            border-radius: 50%;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.5rem;
-            margin-bottom: 25px;
-            color: white;
-            box-shadow: 0 5px 15px var(--shadow-color);
-        }
-        
-        .step h3 {
-            font-size: 1.6rem;
-            margin-bottom: 15px;
-            color: white;
-        }
-
-        .step p {
-            opacity: 0.8;
-        }
-        
-        /* --- Секция "Цены" --- */
-        .pricing-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .pricing-card {
-            padding: 40px 30px;
-            text-align: center;
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
         }
         
-        .pricing-card::before {
+        .glass-effect:before {
             content: '';
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
-            border-radius: 50%;
-            transition: width 0.6s, height 0.6s, opacity 0.6s;
-            transform: translate(-50%, -50%);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 0, rgba(138, 43, 226, 0.15), transparent 70%);
             opacity: 0;
-            z-index: 0;
+            transition: opacity 0.5s ease;
         }
 
-        .pricing-card:hover::before {
-            width: 400px;
-            height: 400px;
-            opacity: 0.2;
-        }
-
-        .pricing-card > * {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .pricing-card:hover {
-            transform: scale(1.05);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            border-color: rgba(138, 43, 226, 0.7);
-        }
-
-        .pricing-card h3 {
-            font-size: 1.7rem;
-            font-weight: 600;
-        }
-        
-        .price {
-            font-size: 3rem;
-            margin: 20px 0;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
-        }
-        
-        .pricing-card ul {
-            list-style: none;
-            margin: 30px 0;
-            text-align: left;
-        }
-        
-        .pricing-card ul li {
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            opacity: 0.8;
-            transition: opacity 0.3s;
-        }
-
-        .pricing-card:hover ul li {
+        .glass-effect:hover:before {
             opacity: 1;
         }
-        
-        .pricing-card ul li:last-child {
-            border-bottom: none;
+
+        .glass-effect:hover {
+            border-color: rgba(138, 43, 226, 0.3);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
         
-        .pricing-card ul li i {
-            margin-right: 12px;
-            color: var(--accent);
+        /* --- Hero Section Particles --- */
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            background-color: var(--dark-bg);
         }
         
-        /* --- Подвал --- */
-        footer {
-            padding: 80px 5% 40px;
-            text-align: center;
-            background-color: #121221;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .contact-info {
-            font-size: 1.4rem;
-            margin: 30px 0;
-            line-height: 1.8;
-        }
-        
-        .contact-info a {
-            color: var(--secondary);
-            text-decoration: none;
-            transition: color 0.3s, text-shadow 0.3s;
-        }
-        
-        .contact-info a:hover {
-            color: white;
-            text-shadow: 0 0 10px var(--accent);
-        }
-        
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            margin: 40px 0;
-        }
-        
-        .social-links a {
-            display: inline-flex;
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.08);
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            font-size: 1.5rem;
-            color: var(--light);
-        }
-        
-        .social-links a:hover {
+        .cta-button {
             background: var(--gradient);
-            color: white;
-            transform: translateY(-5px) scale(1.1);
-            box-shadow: 0 8px 20px var(--shadow-color);
-        }
-        
-        /* --- Анимации --- */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-        
-        .floating {
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        /* --- Адаптивность --- */
-        @media (max-width: 992px) {
-            .hero h1 {
-                font-size: 3rem;
-            }
-             .section-title {
-                font-size: 2.5rem;
-            }
+            transition: all 0.3s ease;
         }
 
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.8rem;
-            }
-            .hero p {
-                font-size: 1.1rem;
-            }
-            nav ul {
-                gap: 1.5rem;
-            }
-            .section-title {
-                font-size: 2.2rem;
-            }
+        .cta-button:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 10px 25px rgba(138, 43, 226, 0.4);
         }
         
-        @media (max-width: 480px) {
-            header {
-                flex-direction: column;
-                gap: 1rem;
-                padding: 1rem 5%;
-            }
-            nav ul {
-                gap: 1.2rem;
-                font-size: 0.9rem;
-            }
-            .hero {
-                text-align: center;
-            }
-            .hero h1 {
-                font-size: 2.2rem;
-            }
+        .pricing-card-popular {
+            border: 2px solid var(--primary-purple);
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(138, 43, 226, 0.3), 0 0 80px rgba(138, 43, 226, 0.2);
+        }
+        
+        /* Scroll Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Mobile Menu */
+        #mobile-menu {
+            transition: transform 0.3s ease-in-out;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(15px);
+        }
+        
+        /* Nav link hover effect */
+        nav a {
+            position: relative;
+        }
+        nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient);
+            transition: width 0.3s ease;
+        }
+        nav a:hover::after {
+            width: 100%;
         }
     </style>
 </head>
-<body>
-    <header>
-        <div class="logo">NexusStudio</div>
-        <nav>
-            <ul>
-                <li><a href="#process">Процесс</a></li>
-                <li><a href="#pricing">Цены</a></li>
-                <li><a href="#contact">Контакты</a></li>
-            </ul>
-        </nav>
+<body class="antialiased">
+    <!-- Header -->
+    <header id="header" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-extrabold gradient-text">
+                NexusStudio
+            </div>
+            <nav class="hidden md:flex items-center space-x-10">
+                <a href="#process" class="text-gray-300 hover:text-white transition duration-300">Процесс</a>
+                <a href="#pricing" class="text-gray-300 hover:text-white transition duration-300">Цены</a>
+                <a href="#contact" class="text-gray-300 hover:text-white transition duration-300">Контакты</a>
+            </nav>
+            <a href="https://t.me/nexust00l" target="_blank" class="hidden md:inline-block px-6 py-2.5 text-white font-semibold rounded-full cta-button">
+                Связаться
+            </a>
+             <!-- Mobile Menu Button -->
+            <div class="md:hidden">
+                <button id="mobile-menu-button" class="text-white focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
     </header>
-
-    <section class="hero">
-        <div class="particles"></div>
-        <div class="hero-content">
-            <h1>Разработка <span class="highlight">Python</span>-программ любой сложности</h1>
-            <p>NexusStudio создает эффективные и масштабируемые решения на Python с гарантией качества и прозрачным процессом разработки.</p>
-            <a href="https://t.me/nexust00l" class="cta-button" target="_blank">
-                Заказать в Telegram <i class="fab fa-telegram"></i>
+    
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed top-0 right-0 h-full w-64 p-8 z-50 transform translate-x-full md:hidden">
+        <button id="close-menu-button" class="absolute top-4 right-4 text-white text-3xl">&times;</button>
+        <nav class="flex flex-col space-y-8 mt-12 text-center">
+            <a href="#process" class="text-gray-300 hover:text-white transition duration-300 text-xl">Процесс</a>
+            <a href="#pricing" class="text-gray-300 hover:text-white transition duration-300 text-xl">Цены</a>
+            <a href="#contact" class="text-gray-300 hover:text-white transition duration-300 text-xl">Контакты</a>
+            <a href="https://t.me/nexust00l" target="_blank" class="mt-6 inline-block text-center px-5 py-3 text-white font-semibold rounded-full cta-button">
+                Связаться
             </a>
-        </div>
-    </section>
+        </nav>
+    </div>
 
-    <section id="process" class="section">
-        <h2 class="section-title">Как мы работаем</h2>
-        <div class="process-steps">
-            <div class="step glass floating">
-                <div class="step-number">1</div>
-                <h3>Опишите задачу</h3>
-                <p>Напишите нам в Telegram, что нужно реализовать. Мы уточним детали и технические требования.</p>
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="relative min-h-screen flex items-center justify-center text-center">
+            <div id="particles-js"></div>
+            <div class="container mx-auto px-6 z-10">
+                <div class="reveal">
+                    <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-6">
+                        Разработка <span class="gradient-text">Python</span>-программ любой сложности
+                    </h1>
+                    <p class="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto mb-10">
+                        NexusStudio создает эффективные и масштабируемые решения на Python с гарантией качества и прозрачным процессом разработки.
+                    </p>
+                    <a href="https://t.me/nexust00l" class="inline-flex items-center gap-3 px-10 py-4 text-white font-bold rounded-full text-lg cta-button" target="_blank">
+                        Заказать в Telegram <i class="fab fa-telegram text-xl"></i>
+                    </a>
+                </div>
             </div>
-            
-            <div class="step glass floating" style="animation-delay: 0.3s">
-                <div class="step-number">2</div>
-                <h3>Согласование</h3>
-                <p>Оценим сложность, назовем точные сроки и цену. Никаких скрытых платежей.</p>
-            </div>
-            
-            <div class="step glass floating" style="animation-delay: 0.6s">
-                <div class="step-number">3</div>
-                <h3>Оплата</h3>
-                <p>Оплата через CryptoBot в Telegram. Начинаем работу сразу после подтверждения платежа.</p>
-            </div>
-            
-            <div class="step glass floating" style="animation-delay: 0.9s">
-                <div class="step-number">4</div>
-                <h3>Разработка</h3>
-                <p>Показываем процесс разработки поэтапно. Вы видите прогресс в реальном времени.</p>
-            </div>
-            
-            <div class="step glass floating" style="animation-delay: 1.2s">
-                <div class="step-number">5</div>
-                <h3>Результат</h3>
-                <p>Вы получаете готовый код и документацию. Гарантируем бесплатные правки в течение 7 дней.</p>
-            </div>
-            
-            <div class="step glass floating" style="animation-delay: 1.5s">
-                <div class="step-number">6</div>
-                <h3>Гарантии</h3>
-                <p>При желании оставляете отзыв. Работаем официально с юридической защитой.</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="pricing" class="section">
-        <h2 class="section-title">Наши цены</h2>
-        <div class="pricing-container">
-            <div class="pricing-card glass">
-                <h3>Простая задача</h3>
-                <div class="price">200–300₽</div>
-                <p>Срок выполнения: 1-2 дня</p>
-                <ul>
-                    <li><i class="fas fa-check-circle"></i> Небольшие скрипты</li>
-                    <li><i class="fas fa-check-circle"></i> Парсинг данных</li>
-                    <li><i class="fas fa-check-circle"></i> Автоматизация задач</li>
-                    <li><i class="fas fa-check-circle"></i> Базовые боты</li>
-                </ul>
+        <!-- Process Section -->
+        <section id="process" class="py-20 md:py-32">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-20 reveal">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-white">Как мы работаем</h2>
+                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Простой и прозрачный процесс от идеи до реализации, разделенный на 6 ключевых этапов.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="glass-effect p-8 rounded-2xl reveal">
+                        <div class="flex items-center mb-4">
+                            <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 text-xl font-bold mr-4">1</div>
+                            <h3 class="text-xl font-bold text-white">Опишите задачу</h3>
+                        </div>
+                        <p class="text-gray-300">Напишите нам в Telegram, что нужно реализовать. Мы уточним детали и технические требования.</p>
+                    </div>
+                    <div class="glass-effect p-8 rounded-2xl reveal" style="transition-delay: 100ms;">
+                        <div class="flex items-center mb-4">
+                            <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 text-xl font-bold mr-4">2</div>
+                            <h3 class="text-xl font-bold text-white">Согласование</h3>
+                        </div>
+                        <p class="text-gray-300">Оценим сложность, назовем точные сроки и цену. Никаких скрытых платежей.</p>
+                    </div>
+                    <div class="glass-effect p-8 rounded-2xl reveal" style="transition-delay: 200ms;">
+                        <div class="flex items-center mb-4">
+                            <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 text-xl font-bold mr-4">3</div>
+                            <h3 class="text-xl font-bold text-white">Оплата</h3>
+                        </div>
+                        <p class="text-gray-300">Оплата через CryptoBot в Telegram. Начинаем работу сразу после подтверждения.</p>
+                    </div>
+                    <div class="glass-effect p-8 rounded-2xl reveal" style="transition-delay: 300ms;">
+                        <div class="flex items-center mb-4">
+                            <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 text-xl font-bold mr-4">4</div>
+                            <h3 class="text-xl font-bold text-white">Разработка</h3>
+                        </div>
+                        <p class="text-gray-300">Показываем процесс разработки поэтапно. Вы видите прогресс в реальном времени.</p>
+                    </div>
+                    <div class="glass-effect p-8 rounded-2xl reveal" style="transition-delay: 400ms;">
+                        <div class="flex items-center mb-4">
+                            <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 text-xl font-bold mr-4">5</div>
+                            <h3 class="text-xl font-bold text-white">Результат</h3>
+                        </div>
+                        <p class="text-gray-300">Вы получаете готовый код и документацию. Гарантируем бесплатные правки.</p>
+                    </div>
+                    <div class="glass-effect p-8 rounded-2xl reveal" style="transition-delay: 500ms;">
+                        <div class="flex items-center mb-4">
+                            <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 text-xl font-bold mr-4">6</div>
+                            <h3 class="text-xl font-bold text-white">Гарантии</h3>
+                        </div>
+                        <p class="text-gray-300">При желании оставляете отзыв. Работаем официально с юридической защитой.</p>
+                    </div>
+                </div>
             </div>
-            
-            <div class="pricing-card glass">
-                <h3>Средняя задача</h3>
-                <div class="price">400–600₽</div>
-                <p>Срок выполнения: 2-3 дня</p>
-                <ul>
-                    <li><i class="fas fa-check-circle"></i> Веб-приложения</li>
-                    <li><i class="fas fa-check-circle"></i> Работа с API</li>
-                    <li><i class="fas fa-check-circle"></i> Базы данных</li>
-                    <li><i class="fas fa-check-circle"></i> GUI приложения</li>
-                </ul>
-            </div>
-            
-            <div class="pricing-card glass">
-                <h3>Сложный проект</h3>
-                <div class="price">от 700₽</div>
-                <p>Срок выполнения: 3-9 дней</p>
-                <ul>
-                    <li><i class="fas fa-check-circle"></i> Мультимодульные системы</li>
-                    <li><i class="fas fa-check-circle"></i> Интеграция с сервисами</li>
-                    <li><i class="fas fa-check-circle"></i> Машинное обучение</li>
-                    <li><i class="fas fa-check-circle"></i> Сложная архитектура</li>
-                </ul>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <footer id="contact" class="section">
-        <h2 class="section-title">Свяжитесь с нами</h2>
-        
-        <div class="contact-info">
-            <p>Готовы начать? Напишите нам в Telegram для обсуждения вашего проекта.</p>
-            <p><a href="https://t.me/nexust00l" target="_blank">@nexust00l</a></p>
-            <p>Оплата: <span class="highlight">CryptoBot</span></p>
+        <!-- Pricing Section -->
+        <section id="pricing" class="py-20 md:py-32 bg-black/20">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-white">Наши цены</h2>
+                    <p class="text-gray-400 mt-4 max-w-2xl mx-auto">Гибкие тарифы для задач любого масштаба.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-center">
+                    <!-- Card 1: Simple -->
+                    <div class="glass-effect rounded-2xl p-8 text-center transition-all duration-300 reveal">
+                        <h3 class="text-2xl font-bold text-white mb-2">Простая задача</h3>
+                        <p class="text-gray-400 mb-6">Срок выполнения: 1-2 дня</p>
+                        <div class="text-5xl font-extrabold gradient-text mb-6">200–300₽</div>
+                        <ul class="space-y-4 text-gray-300 text-left mb-8">
+                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-400 mr-3"></i> Небольшие скрипты</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-400 mr-3"></i> Парсинг данных</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-400 mr-3"></i> Автоматизация задач</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-400 mr-3"></i> Базовые боты</li>
+                        </ul>
+                        <a href="https://t.me/nexust00l" target="_blank" class="w-full block px-6 py-3 font-semibold rounded-full border-2 border-purple-500 text-white hover:bg-purple-500 transition">Заказать</a>
+                    </div>
+
+                    <!-- Card 2: Medium (Popular) -->
+                    <div class="glass-effect rounded-2xl p-8 text-center transition-all duration-300 relative pricing-card-popular reveal" style="transition-delay: 200ms;">
+                         <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-purple-500 text-white text-sm font-bold px-4 py-1 rounded-full">ПОПУЛЯРНЫЙ</div>
+                        <h3 class="text-2xl font-bold text-white mb-2">Средняя задача</h3>
+                        <p class="text-gray-400 mb-6">Срок выполнения: 2-3 дня</p>
+                        <div class="text-5xl font-extrabold gradient-text mb-6">400–600₽</div>
+                        <ul class="space-y-4 text-gray-300 text-left mb-8">
+                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-400 mr-3"></i> Веб-приложения</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-400 mr-3"></i> Работа с API</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-400 mr-3"></i> Базы данных</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-400 mr-3"></i> GUI приложения</li>
+                        </ul>
+                        <a href="https://t.me/nexust00l" target="_blank" class="w-full block px-6 py-3 font-semibold rounded-full cta-button">Заказать</a>
+                    </div>
+
+                    <!-- Card 3: Complex -->
+                    <div class="glass-effect rounded-2xl p-8 text-center transition-all duration-300 reveal" style="transition-delay: 400ms;">
+                        <h3 class="text-2xl font-bold text-white mb-2">Сложный проект</h3>
+                        <p class="text-gray-400 mb-6">Срок выполнения: 3-9 дней</p>
+                        <div class="text-5xl font-extrabold gradient-text mb-6">от 700₽</div>
+                        <ul class="space-y-4 text-gray-300 text-left mb-8">
+                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-400 mr-3"></i> Мультимодульные системы</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-400 mr-3"></i> Интеграция с сервисами</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-400 mr-3"></i> Машинное обучение</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-blue-400 mr-3"></i> Сложная архитектура</li>
+                        </ul>
+                        <a href="https://t.me/nexust00l" target="_blank" class="w-full block px-6 py-3 font-semibold rounded-full border-2 border-purple-500 text-white hover:bg-purple-500 transition">Заказать</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-dark-bg pt-16 pb-8">
+        <div class="container mx-auto px-6 text-center text-gray-400">
+            <div class="reveal">
+                <h2 class="text-3xl font-bold text-white mb-4">Готовы начать?</h2>
+                <p class="text-lg mb-8 max-w-2xl mx-auto">Свяжитесь с нами в Telegram для бесплатной консультации и оценки вашего проекта.</p>
+                <div class="flex justify-center items-center space-x-4 mb-10">
+                    <a href="https://t.me/nexust00l" target="_blank" class="text-2xl font-bold text-gray-200 hover:gradient-text transition-all duration-300">@nexust00l</a>
+                    <a href="https://t.me/nexust00l" target="_blank" class="flex items-center justify-center w-12 h-12 rounded-full bg-gray-800 hover:bg-blue-500 text-white transition-all duration-300 text-2xl">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                </div>
+                <p class="text-sm">Оплата через: <span class="font-bold text-white">CryptoBot</span></p>
+            </div>
+            <div class="border-t border-gray-800 mt-12 pt-8 reveal">
+                <p>© 2023-2025 NexusStudio. Все права защищены.</p>
+            </div>
         </div>
-        
-        <div class="social-links">
-            <a href="https://t.me/nexust00l" target="_blank" aria-label="Telegram">
-                <i class="fab fa-telegram"></i>
-            </a>
-        </div>
-        
-        <p>© 2023-2025 NexusStudio. Все права защищены.</p>
     </footer>
+    
+    <!-- particles.js library -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
     <script>
-        // Эффект для шапки при прокрутке
+        // --- Initialize Particles.js ---
+        particlesJS('particles-js', {
+            "particles": {
+                "number": { "value": 80, "density": { "enable": true, "value_area": 800 } },
+                "color": { "value": "#ffffff" },
+                "shape": { "type": "circle", "stroke": { "width": 0, "color": "#000000" } },
+                "opacity": { "value": 0.3, "random": true, "anim": { "enable": true, "speed": 1, "opacity_min": 0, "sync": false } },
+                "size": { "value": 2, "random": true, "anim": { "enable": false } },
+                "line_linked": { "enable": true, "distance": 150, "color": "#ffffff", "opacity": 0.1, "width": 1 },
+                "move": { "enable": true, "speed": 1, "direction": "none", "random": true, "straight": false, "out_mode": "out", "bounce": false }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": false }, "resize": true },
+                "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.3 } } }
+            },
+            "retina_detect": true
+        });
+
+
+        // --- Header Scroll Effect ---
         window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
-            header.classList.toggle('scrolled', window.scrollY > 50);
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('bg-[#050509]/80', 'backdrop-blur-lg');
+            } else {
+                header.classList.remove('bg-[#050509]/80', 'backdrop-blur-lg');
+            }
+        });
+
+        // --- Scroll Reveal Animation ---
+        const revealElements = document.querySelectorAll('.reveal');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+        revealElements.forEach(el => observer.observe(el));
+        
+        // --- Mobile Menu ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const closeMenuButton = document.getElementById('close-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.remove('translate-x-full');
+        });
+
+        closeMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.add('translate-x-full');
         });
         
-        // Плавная прокрутка к якорям
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+        mobileMenuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                 mobileMenu.classList.add('translate-x-full');
             });
         });
+
     </script>
 </body>
 </html>
